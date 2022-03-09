@@ -238,7 +238,7 @@ v7fs_superblock_endian_convert(struct v7fs_self *fs __unused,
 #define	conv32(m)	(to->m = V7FS_VAL32(fs, from->m))
 	int i;
 
-	conv16(datablock_start_sector);
+	conv32(datablock_start_sector);
 	conv32(volume_size);
 	conv16(nfreeblock);
 	v7fs_daddr_t *dfrom = from->freeblock;
@@ -250,11 +250,11 @@ v7fs_superblock_endian_convert(struct v7fs_self *fs __unused,
 	v7fs_ino_t *ifrom = from->freeinode;
 	v7fs_ino_t *ito = to->freeinode;
 	for (i = 0; i < V7FS_MAX_FREEINODE; i++, ifrom++, ito++)
-		*ito = V7FS_VAL16(fs, *ifrom);
+		*ito = V7FS_VAL32(fs, *ifrom);
 
 	conv32(update_time);
 	conv32(total_freeblock);
-	conv16(total_freeinode);
+	conv32(total_freeinode);
 #undef conv16
 #undef conv32
 #else /* V7FS_EI */
