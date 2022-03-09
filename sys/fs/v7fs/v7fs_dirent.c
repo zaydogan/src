@@ -68,7 +68,7 @@ v7fs_dirent_endian_convert(struct v7fs_self *fs, struct v7fs_dirent *dir, int n)
 	bool ok = true;
 
 	for (i = 0; i < n; i++, dir++) {
-		ino = V7FS_VAL16(fs, dir->inode_number);
+		ino = V7FS_VAL32(fs, dir->inode_number);
 		if (v7fs_inode_number_sanity(sb, ino)) {
 			DPRINTF("Invalid inode# %d %s\n", ino, dir->name);
 			ok = false;
@@ -86,6 +86,10 @@ v7fs_dirent_filename(char *dst/* size must be V7FS_NAME_MAX + 1 */,
 
 	if (srclen > V7FS_NAME_MAX)
 		srclen = V7FS_NAME_MAX;
+
+	while (dst[strlen(dst) - 1] == '/') {
+		dst[strlen(dst) - 1] = 0;
+	}
 
 	memset(dst, 0, V7FS_NAME_MAX + 1);
 	strncpy(dst, src, srclen);
