@@ -194,9 +194,9 @@ v7fs_file_allocate(struct v7fs_self *fs, struct v7fs_inode *parent_dir,
 		}
 		dir = (struct v7fs_dirent *)buf;
 		strcpy(dir[0].name, ".");
-		dir[0].inode_number = V7FS_VAL16(fs, *ino);
+		dir[0].inode_number = V7FS_VAL32(fs, *ino);
 		strcpy(dir[1].name, "..");
-		dir[1].inode_number = V7FS_VAL16(fs, parent_dir->inode_number);
+		dir[1].inode_number = V7FS_VAL32(fs, parent_dir->inode_number);
 		if (!fs->io.write(fs->io.cookie, buf, blk)) {
 			scratch_free(fs, buf);
 			return EIO;
@@ -308,7 +308,7 @@ v7fs_directory_add_entry(struct v7fs_self *fs, struct v7fs_inode *parent_dir,
 	int n = sz / sizeof(*dir) - 1;
 	/* Add dirent. */
 	dir = (struct v7fs_dirent *)buf;
-	dir[n].inode_number = V7FS_VAL16(fs, ino);
+	dir[n].inode_number = V7FS_VAL32(fs, ino);
 	memcpy((char *)dir[n].name, filename, V7FS_NAME_MAX);
 	/* Write back datablock */
 	if (!fs->io.write(fs->io.cookie, buf, blk))
@@ -352,7 +352,7 @@ v7fs_directory_remove_entry(struct v7fs_self *fs, struct v7fs_inode *parent_dir,
 	lastdirent = *((struct v7fs_dirent *)((uint8_t *)buf + pos));
 	scratch_free(fs, buf);
 	DPRINTF("last dirent=%d %s pos=%d\n",
-	    V7FS_VAL16(fs, lastdirent.inode_number), lastdirent.name, pos);
+	    V7FS_VAL32(fs, lastdirent.inode_number), lastdirent.name, pos);
 
 	struct v7fs_lookup_arg lookup_arg =
 	    { .name = filename, .replace = &lastdirent/*disk endian */ };
@@ -393,10 +393,10 @@ remove_subr(struct v7fs_self *fs, void *ctx, v7fs_daddr_t blk, size_t sz)
 	dir = (struct v7fs_dirent *)buf;
 
 	for (i = 0; i < sz / sizeof(*dir); i++, dir++) {
-		DPRINTF("%d\n", V7FS_VAL16(fs, dir->inode_number));
+		DPRINTF("%d\n", V7FS_VAL32(fs, dir->inode_number));
 		if (strncmp(p->name,
 			(const char *)dir->name, V7FS_NAME_MAX) == 0) {
-			p->inode_number = V7FS_VAL16(fs, dir->inode_number);
+			p->inode_number = V7FS_VAL32(fs, dir->inode_number);
 			/* Replace to last dirent. */
 			*dir = *(p->replace); /* disk endian */
 			/* Write back. */
