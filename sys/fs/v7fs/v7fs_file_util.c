@@ -219,7 +219,7 @@ replace_subr(struct v7fs_self *fs, void *ctx, v7fs_daddr_t blk, size_t sz)
 		if (strncmp(p->name, (const char *)dir->name, V7FS_NAME_MAX)
 		    == 0) {
 			/* Replace inode# */
-			dir->inode_number = V7FS_VAL16(fs, p->inode_number);
+			dir->inode_number = V7FS_VAL32(fs, p->inode_number);
 			/* Write back. */
 			if (!fs->io.write(fs->io.cookie, buf, blk))
 				ret = EIO;
