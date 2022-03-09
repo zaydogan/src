@@ -68,14 +68,14 @@
  */
 
 /* V7 type. */
-typedef uint16_t v7fs_ino_t;
+typedef uint32_t v7fs_ino_t;
 typedef uint32_t v7fs_daddr_t;
 typedef int32_t v7fs_time_t;
 typedef uint32_t v7fs_off_t;
 typedef uint16_t v7fs_dev_t;
 typedef uint16_t v7fs_mode_t;
-#define	V7FS_DADDR_MAX		0x00ffffff
-#define	V7FS_INODE_MAX		0xffff
+#define	V7FS_DADDR_MAX		0xffffffff
+#define	V7FS_INODE_MAX		0x0fffffff
 
 #define	V7FS_BSIZE		512
 #define	V7FS_BSHIFT		9
@@ -93,11 +93,11 @@ typedef uint16_t v7fs_mode_t;
 
 /* Superblock */
 /* cache. */
-#define	V7FS_MAX_FREEBLOCK	50
-#define	V7FS_MAX_FREEINODE	100
+#define	V7FS_MAX_FREEBLOCK	35
+#define	V7FS_MAX_FREEINODE	70
 struct v7fs_superblock {
 	/* [3 ... (datablock_start_sector-1)]are ilist */
-	uint16_t datablock_start_sector;
+	uint32_t datablock_start_sector;
 	v7fs_daddr_t volume_size;
 	int16_t nfreeblock;	/* # of freeblock in superblock cache. */
 	v7fs_daddr_t freeblock[V7FS_MAX_FREEBLOCK];	/* cache. */
@@ -127,7 +127,7 @@ struct v7fs_freeblock {
 
 
 /* Dirent */
-#define	V7FS_NAME_MAX		14
+#define	V7FS_NAME_MAX		252
 #define	V7FS_PATH_MAX		PATH_MAX	/* No V7 limit. */
 #define	V7FS_LINK_MAX		LINK_MAX	/* No V7 limit. */
 struct v7fs_dirent {
