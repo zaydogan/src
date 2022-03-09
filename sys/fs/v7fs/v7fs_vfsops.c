@@ -488,7 +488,7 @@ v7fs_vget(struct mount *mp, ino_t ino, int lktype, struct vnode **vpp)
 	v7fs_ino_t number;
 	struct vnode *vp;
 
-	KASSERT(ino <= UINT16_MAX);
+	KASSERT(ino <= UINT32_MAX);
 	number = ino;
 
 	error = vcache_get(mp, &number, sizeof(number), &vp);
