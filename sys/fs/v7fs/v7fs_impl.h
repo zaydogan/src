@@ -140,15 +140,15 @@ void scratch_free(struct v7fs_self *, void *);
 int scratch_remain(const struct v7fs_self *);
 __END_DECLS
 
-#if 0
-#define	V7FS_IO_DEBUG
-#define	V7FS_SUPERBLOCK_DEBUG
-#define	V7FS_DATABLOCK_DEBUG
-#define	V7FS_INODE_DEBUG
-#define	V7FS_DIRENT_DEBUG
-#define	V7FS_FILE_DEBUG
-#define	V7FS_VFSOPS_DEBUG
-#define	V7FS_VNOPS_DEBUG
+#if 1
+//#define	V7FS_IO_DEBUG
+//#define	V7FS_SUPERBLOCK_DEBUG
+//#define	V7FS_DATABLOCK_DEBUG
+//#define	V7FS_INODE_DEBUG
+//#define	V7FS_DIRENT_DEBUG
+//#define	V7FS_FILE_DEBUG
+//#define	V7FS_VFSOPS_DEBUG
+//#define	V7FS_VNOPS_DEBUG
 #endif
 
 #endif /*!_V7FS_IMPL_H_ */
